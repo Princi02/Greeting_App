@@ -33,5 +33,4 @@ public class GreetingController {
                               @RequestParam(required = false) String lastName) {
         return greetingService.getGreetingMessage(firstName, lastName);
     }
-
 }
