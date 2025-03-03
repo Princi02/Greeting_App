@@ -10,6 +10,9 @@ public class Greeting {
     private Long id;
 
     private String message;
+    // ✅ Default constructor (Required by JPA)
+    public Greeting() {
+    }
 
     public Greeting(String message, Long id) {
         this.message = message;
