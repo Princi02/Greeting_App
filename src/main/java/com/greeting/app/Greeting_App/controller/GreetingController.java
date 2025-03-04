@@ -1,42 +1,28 @@
 package com.greeting.app.Greeting_App.controller;
 
-import com.greeting.app.Greeting_App.entity.Greeting;
-import com.greeting.app.Greeting_App.repository.GreetingRepository;
+import com.greeting.app.Greeting_App.service.GreetingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/greetings")
+@RequestMapping("/greeting")
 public class GreetingController {
-
-    private final GreetingRepository greetingRepository;
-
-    public GreetingController(GreetingRepository greetingRepository) {
-        this.greetingRepository = greetingRepository;
-    }
-
-    // Get all greetings
     @GetMapping
-    public List<Greeting> getAllGreetings() {
-        return greetingRepository.findAll();
+    public String getGreeting() {
+        return "Hello, this is a GET request!";
     }
 
-    // Create a new greeting
-    @PostMapping
-    public Greeting createGreeting(@RequestBody Greeting greeting) {
-        return greetingRepository.save(greeting);
+    private final GreetingService greetingService;
+    @Autowired
+    public GreetingController(GreetingService greetingService) {
+        this.greetingService = greetingService;
     }
 
-    // Get a greeting by ID
-    @GetMapping("/{id}")
-    public Greeting getGreetingById(@PathVariable Long id) {
-        return greetingRepository.findById(id).orElse(null);
+    @GetMapping("/service")
+    public String getGreetingServiceLayer() {
+        return GreetingService.getGreetingMessage();
     }
 
-    // Delete a greeting by ID
-    @DeleteMapping("/{id}")
-    public void deleteGreeting(@PathVariable Long id) {
-        greetingRepository.deleteById(id);
-    }
 }
