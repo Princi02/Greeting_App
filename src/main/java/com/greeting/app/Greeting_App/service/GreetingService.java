@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import com.greeting.app.Greeting_App.repository.GreetingRepository;
 import com.greeting.app.Greeting_App.model.Greeting;
 
+import java.util.Optional;
+
 @Service
 public class GreetingService {
     public static String getGreetingMessage() {
