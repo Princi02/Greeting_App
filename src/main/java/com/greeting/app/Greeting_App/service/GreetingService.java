@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import com.greeting.app.Greeting_App.repository.GreetingRepository;
 import com.greeting.app.Greeting_App.model.Greeting;
 
+import java.util.Optional;
+
 @Service
 public class GreetingService {
     public static String getGreetingMessage() {
@@ -33,5 +35,15 @@ public class GreetingService {
     public void saveGreetingMessage(String message) {
         Greeting greeting = new Greeting(message);
         greetingRepository.save(greeting);
+    }
+
+    public Optional<Greeting> getGreetingById(Long id) {
+        Optional<Greeting> greeting = greetingRepository.findById(id);
+        if (greeting.isPresent()) {
+            System.out.println("Found Greeting: " + greeting.get().getMessage());
+        } else {
+            System.out.println("Greeting not found with ID: " + id);
+        }
+        return greeting;
     }
 }
