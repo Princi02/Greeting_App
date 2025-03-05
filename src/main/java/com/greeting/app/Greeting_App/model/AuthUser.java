@@ -26,4 +26,14 @@ public class AuthUser {
 
     @Column(nullable = false)
     private String password;
+
+
+    // 👇 Ensure Getters and Setters Exist
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
