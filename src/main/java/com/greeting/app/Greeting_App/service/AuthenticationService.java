@@ -14,6 +14,9 @@ import java.util.Optional;
 @Service
 public class AuthenticationService {
 
+    @Autowired
+    private EmailService emailService;
+
     private final AuthUserRepository authUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
@@ -44,14 +47,22 @@ public class AuthenticationService {
         Optional<AuthUser> userOptional = authUserRepository.findByEmail(loginDTO.getEmail());
 
         if (userOptional.isEmpty()) {
-            return "User not found!";
+            throw new RuntimeException("User not found!");
         }
 
-        AuthUser user = userOptional.get();
-        if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            return "Invalid email or password!";
+        if (!passwordEncoder.matches(loginDTO.getPassword(), userOptional.get().getPassword())) {
+            throw new RuntimeException("Invalid email or password!");
         }
-
-        return "Login successful";
+        sendLoginNotification(userOptional.get().getEmail());
+        String token=jwtUtil.generateToken(userOptional.get().getEmail());
+        return "Login successful, token: "+token;
     }
+
+
+
+    // New method to send email notification
+    private void sendLoginNotification(String email) {
+        emailService.sendSimpleEmail(email, "Login Alert", "You have successfully logged into your account.");
+    }
+
 }
