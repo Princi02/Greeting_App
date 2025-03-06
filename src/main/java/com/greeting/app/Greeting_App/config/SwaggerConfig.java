@@ -14,7 +14,7 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Greeting App API")
                         .version("1.0")
-                        .description("API documentation for Greeting App"));
+                        .license(new License().name("Apache 2.0").url("http://springdoc.org")));
 
     }
 }
